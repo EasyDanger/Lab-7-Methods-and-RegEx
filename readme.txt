@@ -13,3 +13,6 @@ Version History
 	Known Issues:
 		Still no support for HTML elements
 		more testing needed.
+1.3--10/16/2018--HTML tags added.
+	Known Issues: 
+		HTML check does not check for "/" character at start of second half of tag.

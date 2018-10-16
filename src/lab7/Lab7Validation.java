@@ -8,9 +8,9 @@ public class Lab7Validation {
 	public static void main(String[] args) {
 		// Scanner.
 		Scanner read = new Scanner(System.in);
-		// Menu prompt for.
+		// Menu prompt. Also practicing using escape characters.
 		System.out.println(
-				"Hi. What do you want to validate? Type: \n\n\"Name\" to check a name \n\"Email\" to check an email address\n\"Phone\" to check a phone number \n\"Date\" to check a date");
+				"Hi. What do you want to validate? Type: \n\n\"Name\" to check a name \n\"Email\" to check an email address\n\"Phone\" to check a phone number \n\"Date\" to check a date \n\"HTML\" to check an HTML tag.");
 		// Stores the user's choice.
 		String input = read.nextLine();
 		// Switch handles the menu. We user toLowerCase method to broaden the
@@ -47,12 +47,21 @@ public class Lab7Validation {
 			}
 			break;
 		case "date":
-			System.out.println("So, we need you to enter that date for us to check in MM/DD/YYYY format.");
+			System.out.println("So, we need you to enter that date for us to check.");
 			String userDate = read.nextLine();
 			if (isDate(userDate)) {
 				System.out.println("You got it! That date is totally valid!");
 			} else {
 				System.out.println("Sorry, that date isn't valid.");
+			}
+			break;
+		case "html":
+			System.out.println("So, go on ahead and enter that HTML tag for us to check.");
+			String userHTML = read.nextLine();
+			if (isHTML(userHTML)) {
+				System.out.println("You got it right! That HTML tag is completely valid!");
+			} else {
+				System.out.println("Sorry, that HTML tag isn't valid.");
 			}
 			break;
 		default:
@@ -63,6 +72,20 @@ public class Lab7Validation {
 			break;
 		}
 		read.close();
+	}
+	//HTML method is hacky and incomplete. Figuring out how to parse for the slash and compare the two halfs of the tag.
+	public static boolean isHTML(String userHTML) {
+			boolean isValid = false;
+			if (userHTML.matches("<[a-zA-Z]>\\s?</[A-Za-z]>")) {
+				String[] tags = userHTML.split(">");
+				System.out.println(tags[0] + " " + tags [1] + " " + tags[1].substring(3) + " " + tags[0].substring(1));
+				if ((tags[0].substring(1).equals(tags[1].substring(3)) || tags[0].substring(1).equals(tags[1].substring(2))) /*&& (tags[1].substring(2).equals("/"))  || tags[1].substring(1).equals("/")*/) {
+				isValid = true;
+				}
+			} else {
+				isValid = false;
+			}
+			return isValid;
 	}
 
 	// I know this is outside of the purview of this exercise, but I felt it made
@@ -80,8 +103,12 @@ public class Lab7Validation {
 			return "Hey, Verizon called, and they want their completely valid phone number back!";
 		} else if (isDate(unSure)) {
 			return "That is a valid date. It exists, has existed, or will exist, as is the nature of time and our illusory measurement thereof. Congrats.";
-		} else {
-			return "Okay, we have to be honest. We have no idea what that was. But it's not a valid name, email address, phone number, or date.";
+		} 
+		else if (isHTML(unSure)) {
+			return "That's a totally valid HTML tag. Good jub keeping it together!";
+		}
+		else {
+			return "Okay, we have to be honest. We have no idea what that was. But it's not a valid name, email address, phone number, date, or HTML tag.";
 		}
 	}
 
