@@ -6,21 +6,77 @@ public class Lab7Validation {
 
 	public static void main(String[] args) {
 		Scanner read = new Scanner(System.in);
-		System.out.println("Enter a valid java id.");
+		System.out.println("Hi. What do you want to validate? Type: \n\n\"Name\" to check a name \n\"Email\" to check an email address\n\"Phone\" to check a phone number \n\"Date\" to check a date");
 		String input = read.nextLine();
-		
-		System.out.println(isDate(input));
-		// RegEx for name [A-Z][a-z]*\s?[A-Z]?[a-z]*?
-		//
-		// RegEx for phone numbers \(\d{3}\) \d{3}-\d{4}
+		switch (input) { // This switch assigns each months string to a string format readable by the formatter.
+		case "Name":
+			System.out.println("Okay, go ahead and give us that name to check.");
+			String userName = read.nextLine();
+			if (isName(userName)) {
+			System.out.println("Right on! That name is valid!");
+			}else {
+				System.out.println("Sorry, that name isn't valid.");
+			}
+			break;
+		case "Email":
+			System.out.println("Alright, let's have that email address to check.");
+			String userMail = read.nextLine();
+			if (isMail(userMail)) {
+			System.out.println("Good deal! That's a valid email address!");
+			}else {
+				System.out.println("Sorry, that email isn't valid.");
+			}
+			break;
+		case "Phone":
+			System.out.println("Sure. So, we need that phone number to check.");
+			String userPhone = read.nextLine();
+			if (isPhone(userPhone)) {
+			System.out.println("Good job! That phone number is valid!");
+			}else {
+				System.out.println("Sorry, that phone number isn't valid.");
+			}
+			break;
+		case "Date":
+			System.out.println("So, we need you to enter that date for us to check in MM/DD/YYYY format.");
+			String userDate = read.nextLine();
+			if (isDate(userDate)) {
+			System.out.println("You got it! That date is totally valid!");
+			}else {
+				System.out.println("Sorry, that date isn't valid.");
+			}
+			break;
+		default:
+			System.out.println("We weren't able to quite parse that correctly, but that's okay. Just type what you were going to enter anyway, and we'll try to figure it out!");
+			String unSure = read.nextLine();
+			System.out.println(howAllAIUltimatelyWorks(unSure));
+			break;
+		}
 
-		read.close();
+	}
+
+	private static String howAllAIUltimatelyWorks(String unSure) {
+		if (isName(unSure)) {
+			return "Looks like you entered a name, and it's totally valid! Rad!";
+		}
+		else if (isMail(unSure)) {
+			return "Looks like you entered a valid email address. Awesome!";
+		}
+		else if (isPhone(unSure)) {
+			return "Hey, Verizon called, and they want their completely valid phone number back!";
+		}
+		else if (isDate(unSure)) {
+			return "That is a valid date. It exists, has existed, or will exist, as is the nature of time and our illusory measurement thereof. Congrats.";
+		}
+		else {
+			return "Okay, we have to be honest. We have no idea what that was. But it's not a valid name, email address, phone number, or date.";
+		}		
 	}
 
 	public static boolean isName(String userName) {
 		boolean isValid = false;
 
-		if (userName.matches("[A-Z][a-z]*\\s?[A-Z]?[a-z]*?")) {
+//		if (userName.matches("[A-Z][a-z]*\\s?[A-Z]?[a-z]*?")) {
+		if (userName.matches("[A-Z][a-z]{1,30}")) {
 			isValid = true;
 		} else {
 			isValid = false;
@@ -28,7 +84,7 @@ public class Lab7Validation {
 		return isValid;
 	}
 
-	public static boolean isEmail(String userMail) {
+	public static boolean isMail(String userMail) {
 		boolean isValid;
 		if (userMail.matches("[a-zA-Z\\d]{5,30}@[a-zA-Z\\d]{5,10}.[a-zA-Z\\d]{2,3}")) {
 			isValid = true;
