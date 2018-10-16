@@ -9,4 +9,7 @@ Version History
 		New method to try validation types in absence of choice from user breaks rules followed by other methods (e.g. returns Strings, not booleans;  
 		More testing needed.
 		code cleanup.
-		
+1.2--10/16/2018--Comments added. Code cleanup/formatting.
+	Known Issues:
+		Still no support for HTML elements
+		more testing needed.

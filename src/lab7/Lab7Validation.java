@@ -2,79 +2,97 @@ package lab7;
 
 import java.util.Scanner;
 
+//Did not end up using any of the methods from the Validator class. PArtly because it was more fun to write them myself. Partly because they returned things other than booleans. And partly because i thought that, like keeping the sysouts from the methods, we weren't supposed to be passing scanners to them, either. So i built methods strictly to handle validation, trying to limit what an individual method did as much as possible. A lot less to comment on that way, too.
 public class Lab7Validation {
-
+//look at that! No variables here!
 	public static void main(String[] args) {
+		// Scanner.
 		Scanner read = new Scanner(System.in);
-		System.out.println("Hi. What do you want to validate? Type: \n\n\"Name\" to check a name \n\"Email\" to check an email address\n\"Phone\" to check a phone number \n\"Date\" to check a date");
+		// Menu prompt for.
+		System.out.println(
+				"Hi. What do you want to validate? Type: \n\n\"Name\" to check a name \n\"Email\" to check an email address\n\"Phone\" to check a phone number \n\"Date\" to check a date");
+		// Stores the user's choice.
 		String input = read.nextLine();
-		switch (input) { // This switch assigns each months string to a string format readable by the formatter.
-		case "Name":
+		// Switch handles the menu. We user toLowerCase method to broaden the
+		// possibility of user correctly choosing an option, but it doesn't really
+		// matter. Each case will call the appropriate method to handle the validation.
+		// If user fails to choose an option, program will "guess" what they want to
+		// validate.
+		switch (input.toLowerCase()) {
+		case "name":
 			System.out.println("Okay, go ahead and give us that name to check.");
 			String userName = read.nextLine();
 			if (isName(userName)) {
-			System.out.println("Right on! That name is valid!");
-			}else {
+				System.out.println("Right on! That name is valid!");
+			} else {
 				System.out.println("Sorry, that name isn't valid.");
 			}
 			break;
-		case "Email":
+		case "email":
 			System.out.println("Alright, let's have that email address to check.");
 			String userMail = read.nextLine();
 			if (isMail(userMail)) {
-			System.out.println("Good deal! That's a valid email address!");
-			}else {
+				System.out.println("Good deal! That's a valid email address!");
+			} else {
 				System.out.println("Sorry, that email isn't valid.");
 			}
 			break;
-		case "Phone":
+		case "phone":
 			System.out.println("Sure. So, we need that phone number to check.");
 			String userPhone = read.nextLine();
 			if (isPhone(userPhone)) {
-			System.out.println("Good job! That phone number is valid!");
-			}else {
+				System.out.println("Good job! That phone number is valid!");
+			} else {
 				System.out.println("Sorry, that phone number isn't valid.");
 			}
 			break;
-		case "Date":
+		case "date":
 			System.out.println("So, we need you to enter that date for us to check in MM/DD/YYYY format.");
 			String userDate = read.nextLine();
 			if (isDate(userDate)) {
-			System.out.println("You got it! That date is totally valid!");
-			}else {
+				System.out.println("You got it! That date is totally valid!");
+			} else {
 				System.out.println("Sorry, that date isn't valid.");
 			}
 			break;
 		default:
-			System.out.println("We weren't able to quite parse that correctly, but that's okay. Just type what you were going to enter anyway, and we'll try to figure it out!");
+			System.out.println(
+					"We weren't able to quite parse that correctly, but that's okay. Just type what you were going to enter for validation anyway, and we'll try to figure it out!");
 			String unSure = read.nextLine();
 			System.out.println(howAllAIUltimatelyWorks(unSure));
 			break;
 		}
-
+		read.close();
 	}
 
+	// I know this is outside of the purview of this exercise, but I felt it made
+	// the program feel more cohesive and complete. I did not want to code more
+	// cases in the main method, though, so i allow this one to just return Strings
+	// to be printed. Stuck to the no sysout in the methods rule, though.
 	private static String howAllAIUltimatelyWorks(String unSure) {
+		// Method will return a string based on what, if any, format the passed string
+		// held that the other methods can look for.
 		if (isName(unSure)) {
 			return "Looks like you entered a name, and it's totally valid! Rad!";
-		}
-		else if (isMail(unSure)) {
+		} else if (isMail(unSure)) {
 			return "Looks like you entered a valid email address. Awesome!";
-		}
-		else if (isPhone(unSure)) {
+		} else if (isPhone(unSure)) {
 			return "Hey, Verizon called, and they want their completely valid phone number back!";
-		}
-		else if (isDate(unSure)) {
+		} else if (isDate(unSure)) {
 			return "That is a valid date. It exists, has existed, or will exist, as is the nature of time and our illusory measurement thereof. Congrats.";
-		}
-		else {
+		} else {
 			return "Okay, we have to be honest. We have no idea what that was. But it's not a valid name, email address, phone number, or date.";
-		}		
+		}
 	}
 
+	// Checks that the string is in "name" format (initial cap and lowercase
+	// everything else. true if it is, false if it's not, natch.
 	public static boolean isName(String userName) {
 		boolean isValid = false;
-
+		// This commented out line of code was my attempt to account for first and last
+		// names, which was what I immediately assumed was necessary. I removed it
+		// because I couldn't reliably get it to accept both single names or first and last
+		// names within a single expression. Also I had missed the 30 character thing.
 //		if (userName.matches("[A-Z][a-z]*\\s?[A-Z]?[a-z]*?")) {
 		if (userName.matches("[A-Z][a-z]{1,30}")) {
 			isValid = true;
@@ -84,6 +102,8 @@ public class Lab7Validation {
 		return isValid;
 	}
 
+	// Checks if the string is in email format, as per the instructions. No
+	// underscores, dashes, or full stops.
 	public static boolean isMail(String userMail) {
 		boolean isValid;
 		if (userMail.matches("[a-zA-Z\\d]{5,30}@[a-zA-Z\\d]{5,10}.[a-zA-Z\\d]{2,3}")) {
@@ -94,6 +114,7 @@ public class Lab7Validation {
 		return isValid;
 	}
 
+	// Checks if the input is in this phone number format.
 	public static boolean isPhone(String userPhone) {
 		boolean isValid;
 		if (userPhone.matches("\\(\\d{3}\\) \\d{3}-\\d{4}")) {
@@ -104,9 +125,15 @@ public class Lab7Validation {
 		return isValid;
 	}
 
+	// Checks to see if the input is a date I pulled in a lot of code from the
+	// Pre-work exercise to help validate that the date was not only in the right
+	// format, but also corresponded to an actual date., accounting for leap years,
+	// etc.
 	public static boolean isDate(String userDate) {
 		boolean isValid = true;
-
+		// These nested statements simply work to determine which months should have how
+		// many days and so on. If we get February 29, 1999, program should return
+		// false, even if it's in the right format.
 		if (userDate.matches("\\d\\d/\\d\\d/\\d{4}")) {
 			String[] date = userDate.split("/");
 			System.out.println(date[0] + " " + date[1] + " " + date[2]);
@@ -141,11 +168,10 @@ public class Lab7Validation {
 					} else {
 						isValid = false;
 					}
-				}
-				else {
+				} else {
 					isValid = false;
 				}
-			}else {
+			} else {
 				isValid = false;
 			}
 
